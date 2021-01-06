@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ namespace asymmetric_hashing_internal {
 void Avx512PlatformSpecificSwizzle(uint8_t* packed_dataset, int num_datapoints,
                                    int num_codes);
 
-template <size_t kBatchSize, bool kPrefetch>
+template <size_t kBatchSize, PrefetchStrategy kPrefetch>
 class LUT16Avx512 {
  public:
   static SCANN_AVX512_OUTLINE void GetInt16Distances(LUT16Args<int16_t> args);

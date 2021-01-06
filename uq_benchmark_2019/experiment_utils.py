@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -232,7 +232,7 @@ def get_distribution_strategy(distribution_strategy='default',
         cross_device_ops=_mirrored_cross_device_ops(all_reduce_alg, num_packs))
 
   if distribution_strategy == 'parameter_server':
-    return tf.distribute.experimental.ParameterServerStrategy()
+    return tf.compat.v1.distribute.experimental.ParameterServerStrategy()
 
   raise ValueError(
       'Unrecognized Distribution Strategy: %r' % distribution_strategy)

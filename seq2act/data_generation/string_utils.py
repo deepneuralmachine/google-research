@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -183,7 +183,7 @@ def get_t2t_token_pos_from_char_pos(text, start, end):
   if curr == tokens[len(prev): len(prev) + len(curr)]:
     return len(prev), len(prev) + len(curr)
 
-  space = 1535
+  space = tokenize_to_ids(' ')[0][0]  # subtoken for space ' _'
 
   # try ignore the last token(' ') of prev tokens.
   if prev[-1] == space and curr == tokens[len(prev)-1: len(prev) + len(curr)-1]:

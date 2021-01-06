@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,11 @@
 
 """Test data reader, based on tensorflow/examples/speech_commands."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import os
 import numpy as np
 import tensorflow.compat.v1 as tf
 from kws_streaming.data import input_data
-from kws_streaming.train import model_flags
+from kws_streaming.models import model_flags
 tf.disable_eager_execution()
 
 
@@ -79,6 +75,7 @@ class InputDataTest(tf.test.TestCase):
         "dct_num_features": 30,
         "split_data": 1,
         "train": 1,
+        "pick_deterministically": 0,
     }
     return DictStruct(**dummy_flags)
 

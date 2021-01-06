@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -134,15 +134,37 @@ enum : uint64_t {
 const std::string& EmptyString();
 
 template <typename CollectionT>
+bool IsEmpty(const CollectionT& c) {
+  return c.empty();
+}
+
+inline bool IsEmpty(const absl::Flag<std::string>& flag) {
+  return absl::GetFlag(flag).empty();
+}
+
+template <typename CollectionT>
 bool NotEmpty(const CollectionT& c) {
   return !c.empty();
 }
 
 inline bool NotEmpty(const absl::Flag<std::string>& flag) {
-  return NotEmpty(absl::GetFlag(flag));
+  return !absl::GetFlag(flag).empty();
 }
 
-inline bool NotOk(const Status& status) { return !status.ok(); }
+template <typename StatusT>
+inline bool IsOk(const StatusT& status) {
+  return status.ok();
+}
+
+template <typename T>
+inline bool IsOk(const StatusOr<T>& statusor) {
+  return statusor.ok();
+}
+
+template <typename StatusT>
+inline bool NotOk(const StatusT& status) {
+  return !status.ok();
+}
 
 template <typename T>
 inline bool NotOk(const StatusOr<T>& statusor) {

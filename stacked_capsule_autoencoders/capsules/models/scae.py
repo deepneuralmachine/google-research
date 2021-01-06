@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ from stacked_capsule_autoencoders.capsules import plot
 from stacked_capsule_autoencoders.capsules import probe
 from stacked_capsule_autoencoders.capsules import tensor_ops
 from stacked_capsule_autoencoders.capsules.data import preprocess
-from stacked_capsule_autoencoders.capsules.models import Model
+from stacked_capsule_autoencoders.capsules.models.model import Model
 from stacked_capsule_autoencoders.capsules.tensor_ops import make_brodcastable
 
 tfd = tfp.distributions
@@ -362,7 +362,8 @@ class ImageAutoencoder(Model):
                                  depth=n_caps + 1)[Ellipsis, 1:]
 
     num_per_group = tf.reduce_sum(capsule_one_hot, 1)
-    num_per_group_per_batch = tf.reduce_mean(tf.to_float(num_per_group), 0)
+    num_per_group_per_batch = tf.reduce_mean(
+        tf.cast(num_per_group, tf.float32), 0)
 
     reports.update({
         'votes_per_capsule_{}'.format(k): v

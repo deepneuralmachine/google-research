@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ class TreeXHybridSMMD : public SingleMachineSearcherBase<T> {
           int32_t token)>
           leaf_searcher_builder);
 
-  Status BuildPretrainedScalarQuanitzationLeafSearchers(
+  Status BuildPretrainedScalarQuantizationLeafSearchers(
       vector<std::vector<DatapointIndex>> datapoints_by_token,
       vector<DenseDataset<int8_t>> partitioned_datasets,
       vector<vector<float>> partitioned_squared_l2_norms,

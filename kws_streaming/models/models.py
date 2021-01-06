@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import kws_streaming.models.crnn as crnn
 import kws_streaming.models.dnn as dnn
 import kws_streaming.models.dnn_raw as dnn_raw
 import kws_streaming.models.ds_cnn as ds_cnn
+import kws_streaming.models.ds_tc_resnet as ds_tc_resnet
 import kws_streaming.models.gru as gru
 import kws_streaming.models.inception as inception
 import kws_streaming.models.inception_resnet as inception_resnet
@@ -31,6 +32,7 @@ import kws_streaming.models.svdf as svdf
 import kws_streaming.models.svdf_resnet as svdf_resnet
 import kws_streaming.models.tc_resnet as tc_resnet
 import kws_streaming.models.xception as xception
+
 # dict with supported models
 MODELS = {
     'att_mh_rnn': att_mh_rnn.model,
@@ -50,4 +52,5 @@ MODELS = {
     'xception': xception.model,
     'inception': inception.model,
     'inception_resnet': inception_resnet.model,
+    'ds_tc_resnet': ds_tc_resnet.model,
 }

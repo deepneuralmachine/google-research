@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef THIRD_PARTY_GOOGLE_RESEARCH_GOOGLE_RESEARCH_EEG_MODELLING_EDF_EDF_H_
-#define THIRD_PARTY_GOOGLE_RESEARCH_GOOGLE_RESEARCH_EEG_MODELLING_EDF_EDF_H_
+#ifndef EEG_MODELLING_EDF_EDF_H_
+#define EEG_MODELLING_EDF_EDF_H_
 
 #include <string>
 #include <vector>
@@ -50,4 +50,4 @@ StatusOr<AnnotationSignal> ParseEdfAnnotationSignal(EdfFile* fp,
 
 }  // namespace eeg_modelling
 
-#endif  // THIRD_PARTY_GOOGLE_RESEARCH_GOOGLE_RESEARCH_EEG_MODELLING_EDF_EDF_H_
+#endif  // EEG_MODELLING_EDF_EDF_H_

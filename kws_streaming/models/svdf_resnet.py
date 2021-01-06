@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ from kws_streaming.layers import modes
 from kws_streaming.layers import speech_features
 from kws_streaming.layers import svdf
 from kws_streaming.layers.compat import tf
-from kws_streaming.models.utils import parse
+from kws_streaming.models import utils
 
 
 def model_parameters(parser_nn):
@@ -107,7 +107,7 @@ def model_parameters(parser_nn):
       '--svdf_pad',
       type=int,
       default=1,
-      help='If 1, pad svdf input data with zeros',
+      help='If 1, causal pad svdf input data with zeros, else valid pad',
   )
   parser_nn.add_argument(
       '--dropout1',
@@ -155,19 +155,23 @@ def model(flags):
         speech_features.SpeechFeatures.get_params(flags))(
             net)
 
-  blocks_pool = parse(flags.blocks_pool)
+  blocks_pool = utils.parse(flags.blocks_pool)
   if len(blocks_pool) != 3:
     raise ValueError('number of pooling blocks has to be 3, but get: ',
                      len(blocks_pool))
 
+  # for streaming mode it is better to use causal padding
+  padding = 'causal' if flags.svdf_pad else 'valid'
+
   # first residual block
-  number_of_blocks = len(parse(flags.block1_units1))
+  number_of_blocks = len(utils.parse(flags.block1_units1))
   activations = [flags.activation] * number_of_blocks
   activations[-1] = 'linear'  # last layer is linear
   residual = net
   for i, (units1, memory_size, activation) in enumerate(
-      zip(parse(flags.block1_units1), parse(flags.block1_memory_size),
-          activations)):
+      zip(
+          utils.parse(flags.block1_units1),
+          utils.parse(flags.block1_memory_size), activations)):
     # [batch, time, feature]
     net = svdf.Svdf(
         units1=units1,
@@ -175,7 +179,7 @@ def model(flags):
         units2=-1,
         dropout=flags.svdf_dropout,
         activation=activation,
-        pad=flags.svdf_pad,
+        pad=padding,
         use_bias=flags.svdf_use_bias,
         use_batch_norm=flags.use_batch_norm,
         bn_scale=flags.bn_scale,
@@ -183,7 +187,7 @@ def model(flags):
             net)
 
   # number of channels in the last layer
-  units1_last = parse(flags.block1_units1)[-1]
+  units1_last = utils.parse(flags.block1_units1)[-1]
 
   # equivalent to 1x1 convolution
   residual = tf.keras.layers.Dense(units1_last, use_bias=False)(residual)
@@ -198,13 +202,14 @@ def model(flags):
           net)
 
   # second residual block
-  number_of_blocks = len(parse(flags.block2_units1))
+  number_of_blocks = len(utils.parse(flags.block2_units1))
   activations = [flags.activation] * number_of_blocks
   activations[-1] = 'linear'  # last layer is linear
   residual = net
   for i, (units1, memory_size, activation) in enumerate(
-      zip(parse(flags.block2_units1), parse(flags.block2_memory_size),
-          activations)):
+      zip(
+          utils.parse(flags.block2_units1),
+          utils.parse(flags.block2_memory_size), activations)):
     # [batch, time, feature]
     net = svdf.Svdf(
         units1=units1,
@@ -212,7 +217,7 @@ def model(flags):
         units2=-1,
         dropout=flags.svdf_dropout,
         activation=activation,
-        pad=flags.svdf_pad,
+        pad=padding,
         use_bias=flags.svdf_use_bias,
         use_batch_norm=flags.use_batch_norm,
         bn_scale=flags.bn_scale,
@@ -220,7 +225,7 @@ def model(flags):
             net)
 
   # number of channels in the last layer
-  units1_last = parse(flags.block2_units1)[-1]
+  units1_last = utils.parse(flags.block2_units1)[-1]
 
   # equivalent to 1x1 convolution
   residual = tf.keras.layers.Dense(units1_last, use_bias=False)(residual)
@@ -235,20 +240,21 @@ def model(flags):
           net)
 
   # third residual block
-  number_of_blocks = len(parse(flags.block3_units1))
+  number_of_blocks = len(utils.parse(flags.block3_units1))
   activations = [flags.activation] * number_of_blocks
   activations[-1] = 'linear'  # last layer is linear
   residual = net
   for i, (units1, memory_size, activation) in enumerate(
-      zip(parse(flags.block3_units1), parse(flags.block3_memory_size),
-          activations)):
+      zip(
+          utils.parse(flags.block3_units1),
+          utils.parse(flags.block3_memory_size), activations)):
     net = svdf.Svdf(
         units1=units1,
         memory_size=memory_size,
         units2=-1,
         dropout=flags.svdf_dropout,
         activation=activation,
-        pad=flags.svdf_pad,
+        pad=padding,
         use_bias=flags.svdf_use_bias,
         use_batch_norm=flags.use_batch_norm,
         bn_scale=flags.bn_scale,
@@ -256,7 +262,7 @@ def model(flags):
             net)
 
   # number of channels in the last layer
-  units1_last = parse(flags.block3_units1)[-1]
+  units1_last = utils.parse(flags.block3_units1)[-1]
 
   # equivalent to 1x1 convolution
   residual = tf.keras.layers.Dense(units1_last, use_bias=False)(residual)
@@ -279,7 +285,7 @@ def model(flags):
   # [batch, feature]
   net = tf.keras.layers.Dropout(rate=flags.dropout1)(net)
 
-  for units in parse(flags.units2):
+  for units in utils.parse(flags.units2):
     net = tf.keras.layers.Dense(units=units, activation=flags.activation)(net)
 
   net = tf.keras.layers.Dense(units=flags.label_count)(net)

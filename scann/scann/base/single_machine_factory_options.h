@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,6 +37,12 @@ class ScannConfig;
 
 struct SingleMachineFactoryOptions {
   SingleMachineFactoryOptions() {}
+
+  StatusOr<DatapointIndex> ComputeConsistentSize(
+      const Dataset* dataset = nullptr) const;
+
+  StatusOr<DimensionIndex> ComputeConsistentDimensionality(
+      const HashConfig& config, const Dataset* dataset = nullptr) const;
 
   TypeTag type_tag = kInvalidTypeTag;
 

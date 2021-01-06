@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ from model_pruning.python.pruning import get_thresholds
 from model_pruning.python.pruning import get_weight_sparsity
 from model_pruning.python.pruning import get_weights
 from model_pruning.python.pruning import Pruning
+from model_pruning.python.pruning_hook import ModelPruningHook
+from model_pruning.python.pruning_hook import ModelPruningListener
 from model_pruning.python.pruning_interface import apply_matrix_compression
 from model_pruning.python.pruning_interface import apply_pruning
 from model_pruning.python.pruning_interface import get_matrix_compression_object

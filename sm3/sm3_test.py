@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ class SM3Test(tf.test.TestCase):
           learning_rate=self._learning_rate, momentum=self._momentum)
 
       step = opt.apply_gradients([(grad, var)])
-      tf.global_variables_initializer().run()
+      sess.run(tf.global_variables_initializer())
 
       # Check that variable and momentum are as expected before starting
       # training.
@@ -81,7 +81,7 @@ class SM3Test(tf.test.TestCase):
           learning_rate=self._learning_rate, momentum=self._momentum)
 
       step = opt.apply_gradients([(grad, var)])
-      tf.global_variables_initializer().run()
+      sess.run(tf.global_variables_initializer())
 
       # Check that variable and momentum are as expected before starting
       # training.
@@ -121,7 +121,7 @@ class SM3Test(tf.test.TestCase):
           learning_rate=self._learning_rate, momentum=self._momentum)
 
       step = opt.apply_gradients([(grad, var)])
-      tf.global_variables_initializer().run()
+      sess.run(tf.global_variables_initializer())
 
       # Check that variable and momentum are as expected before starting
       # training.
@@ -166,7 +166,7 @@ class SM3Test(tf.test.TestCase):
           learning_rate=self._learning_rate, momentum=self._momentum)
 
       step = opt.apply_gradients([(grad, var)])
-      tf.global_variables_initializer().run()
+      sess.run(tf.global_variables_initializer())
 
       # Check that variable and momentum are as expected before starting
       # training.
@@ -198,7 +198,7 @@ class SM3Test(tf.test.TestCase):
       opt = sm3.SM3Optimizer(
           learning_rate=self._learning_rate, momentum=self._momentum)
       step = opt.apply_gradients([(grad, var)])
-      tf.global_variables_initializer().run()
+      sess.run(tf.global_variables_initializer())
       # Check that variable and momentum are as expected before starting
       # training.
       var_np = sess.run(var)

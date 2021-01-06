@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ Contains dataloaders and augmentation functions of MNIST,
 CIFAR-10, CIFAR-100 and Tiny-ImageNet.
 Also contains the implementation of dataset interface of prototypical learning.
 """
-from keras.datasets import cifar10
-from keras.datasets import cifar100
-from keras.datasets import mnist
 import numpy as np
 import tensorflow.compat.v1 as tf
+from tensorflow.compat.v1.keras.datasets import cifar10
+from tensorflow.compat.v1.keras.datasets import cifar100
+from tensorflow.compat.v1.keras.datasets import mnist
 from dble import tiny_imagenet
 
 

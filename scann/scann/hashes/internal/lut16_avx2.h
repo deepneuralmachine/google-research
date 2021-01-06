@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace tensorflow {
 namespace scann_ops {
 namespace asymmetric_hashing_internal {
 
-template <size_t kNumQueries, bool kPrefetch>
+template <size_t kNumQueries, PrefetchStrategy kPrefetch>
 class LUT16Avx2 {
  public:
   SCANN_AVX2_OUTLINE static void GetInt16Distances(LUT16Args<int16_t> args);

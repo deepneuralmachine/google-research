@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -188,6 +188,10 @@ def input_fn(data_files,
   def _is_enough_agreement(example):
     return tf.greater_equal(example['agreement_count'], required_agreement)
   dataset = dataset.filter(_is_enough_agreement)
+
+  def _length_filter(example):
+    return tf.less(tf.shape(example['obj_refs'])[0], 20)
+  dataset = dataset.filter(_length_filter)
 
   def _filter_data_by_rule(example, rule_id_list):
     return tf.reduce_any(

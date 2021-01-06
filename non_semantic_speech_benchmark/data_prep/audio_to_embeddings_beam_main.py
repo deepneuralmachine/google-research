@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ from absl import app
 from absl import flags
 from absl import logging
 import apache_beam as beam
+import tensorflow as tf
 from non_semantic_speech_benchmark.data_prep import audio_to_embeddings_beam_utils
 
 flags.DEFINE_string('input_glob', None,
@@ -37,6 +38,11 @@ flags.DEFINE_string(
     'XOR with `input_glob`. Should be of the form ex "cifar".'
     'Exactly one of `sample_rate_key`, `sample_rate`, or '
     '`tfds_dataset` must be not None.')
+flags.DEFINE_string(
+    'tfds_data_dir', None,
+    'An optional directory for the locally downloaded TFDS data. Should only '
+    'be non-None when `tfds_dataset` is used. This is essential for data that '
+    'needs to be manually downloaded.')
 
 flags.DEFINE_string('output_filename', None, 'Output filename.')
 flags.DEFINE_list(
@@ -85,7 +91,7 @@ def main(unused_argv):
   # train, validation, and test.
   input_filenames_list, output_filenames, sample_rate = audio_to_embeddings_beam_utils.read_input_glob_and_sample_rate_from_flags(
       FLAGS.input_glob, FLAGS.sample_rate, FLAGS.tfds_dataset,
-      FLAGS.output_filename)
+      FLAGS.output_filename, FLAGS.tfds_data_dir)
 
   # Check that inputs and flags are formatted correctly.
   audio_to_embeddings_beam_utils.validate_inputs(input_filenames_list,
@@ -127,10 +133,12 @@ def main(unused_argv):
 if __name__ == '__main__':
   flags.mark_flags_as_required([
       'output_filename', 'embedding_names', 'embedding_modules',
-      'module_output_keys', 'audio_key', 'label_key'
+      'module_output_keys', 'audio_key', 'label_key',
   ])
   flags.mark_flags_as_mutual_exclusive(['input_glob', 'tfds_dataset'],
                                        required=True)
   flags.mark_flags_as_mutual_exclusive(
       ['tfds_dataset', 'sample_rate_key', 'sample_rate'], required=True)
+  tf.compat.v2.enable_v2_behavior()
+  assert tf.executing_eagerly()
   app.run(main)

@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -74,6 +74,8 @@ class GmmUtils {
     CenterReassignmentType center_reassignment_type = RANDOM_REASSIGNMENT;
 
     enum CenterInitializationType {
+      MEAN_DISTANCE_INITIALIZATION,
+
       KMEANS_PLUS_PLUS,
 
       RANDOM_INITIALIZATION,
@@ -185,6 +187,11 @@ class GmmUtils {
       GmmUtilsImplInterface* impl, ConstSpan<uint32_t> partition_sizes,
       bool spherical, DenseDataset<double>* centroids,
       std::vector<double>* convergence_means) const;
+
+  Status MeanDistanceInitializeCenters(const Dataset& dataset,
+                                       ConstSpan<DatapointIndex> subset,
+                                       int32_t num_clusters,
+                                       DenseDataset<double>* initial_centers);
 
   Status KMeansPPInitializeCenters(const Dataset& dataset,
                                    ConstSpan<DatapointIndex> subset,

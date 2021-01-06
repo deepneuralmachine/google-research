@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,10 +25,11 @@ template void DenseDistanceManyToManyImpl(
     const DistanceMeasure &dist, const DenseDataset<float> &queries,
     const DenseDataset<float> &database, thread::ThreadPool *pool,
     ManyToManyTop1Callback<float> callback);
-template void DenseDistanceManyToManyImpl(
+
+template Status DenseDistanceManyToManyFP8PretransposedImpl(
     const DistanceMeasure &dist, const DenseDataset<float> &queries,
-    const DenseDataset<float> &database, thread::ThreadPool *pool,
-    ManyToManyTop1SquaredL2Callback<float, float, float> callback);
+    const FP8SimdBlockTransposedDatabase &database, thread::ThreadPool *pool,
+    ManyToManyTop1OffsetWrapper<float> callback);
 
 }  // namespace mm_internal
 }  // namespace scann_ops

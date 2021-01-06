@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -564,7 +564,7 @@ class TemporalFusionTransformer(object):
     wired_embeddings = []
     for i in range(num_categorical_variables):
       if i not in self._known_categorical_input_idx \
-        and i not in self._input_obs_loc:
+        and  i + num_regular_variables  not in self._input_obs_loc:
         e = embeddings[i](categorical_inputs[:, :, i])
         wired_embeddings.append(e)
 
@@ -1127,7 +1127,7 @@ class TemporalFusionTransformer(object):
       print('Using cached training data')
       train_data = TFTDataCache.get('train')
     else:
-      train_data = self._batch_data(valid_df)
+      train_data = self._batch_data(train_df)
 
     if valid_df is None:
       print('Using cached validation data')

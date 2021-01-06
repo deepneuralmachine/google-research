@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include "google/protobuf/repeated_field.h"
 #include "absl/algorithm/container.h"
 #include "absl/container/node_hash_map.h"
+#include "absl/container/node_hash_set.h"
 #include "absl/memory/memory.h"
 #include "task.pb.h"
 
@@ -35,7 +36,6 @@ using ::std::function;       // NOLINT
 using ::std::set;            // NOLINT
 using ::std::unique_ptr;     // NOLINT
 // NOLINT
-using ::std::unordered_set;  // NOLINT
 using ::std::vector;         // NOLINT
 
 vector<Op> ExtractOps(const RepeatedField<int>& ops_src) {

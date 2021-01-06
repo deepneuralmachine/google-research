@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@
 #include <iterator>
 #include <tuple>
 
+#include "absl/container/node_hash_map.h"
 #include "absl/memory/memory.h"
 #include "absl/strings/str_cat.h"
 #include "absl/time/time.h"
@@ -283,10 +284,10 @@ StatusOr<AnnotationSignal> EdfReader::ReadAnnotations(double start_offset_secs,
   return annotations;
 }
 
-StatusOr<std::unordered_map<string, std::vector<double>>>
+StatusOr<absl::node_hash_map<string, std::vector<double>>>
 EdfReader::ReadSignals(double start_offset_secs, double end_offset_secs) {
   // Prepare output.
-  std::unordered_map<string, std::vector<double>> signals;
+  absl::node_hash_map<string, std::vector<double>> signals;
   for (const auto& signal_header : edf_header_->signal_headers()) {
     if (signal_header.label() != kEdfAnnotationsLabel) {
       signals[signal_header.label()];

@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -90,10 +90,6 @@ class BruteForceSearcher final : public SingleMachineSearcherBase<T> {
   shared_ptr<const DistanceMeasure> distance_;
 
   const bool supports_low_level_batching_;
-
-  const bool using_squared_db_norms_;
-
-  vector<T> squared_db_norms_;
 
   std::shared_ptr<thread::ThreadPool> pool_;
 

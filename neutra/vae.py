@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -935,10 +935,12 @@ class FlipImageBijector(tfb.Bijector):
       ValueError: if `permutation` does not contain exactly one of each of
         `{0, 1, ..., d}`.
     """
+    parameters = dict(locals())
     super(FlipImageBijector, self).__init__(
         forward_min_event_ndims=3,
         is_constant_jacobian=True,
         validate_args=validate_args,
+        parameters=parameters,
         name=name or "flip_image")
 
   def _forward(self, x):

@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef INSTRUCTION_H_
-#define INSTRUCTION_H_
+#ifndef AUTOML_ZERO_INSTRUCTION_H_
+#define AUTOML_ZERO_INSTRUCTION_H_
 
 #include <math.h>
 
@@ -233,4 +233,4 @@ inline void MutateFloatLogScaleOrFlip(
 
 }  // namespace automl_zero
 
-#endif  // INSTRUCTION_H_
+#endif  // AUTOML_ZERO_INSTRUCTION_H_

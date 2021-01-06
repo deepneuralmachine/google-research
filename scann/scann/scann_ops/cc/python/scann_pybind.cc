@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,11 +22,14 @@ PYBIND11_MODULE(scann_pybind, py_module) {
   py_module.doc() = "pybind11 wrapper for ScaNN";
   pybind11::class_<tensorflow::scann_ops::ScannNumpy>(py_module, "ScannNumpy")
       .def(pybind11::init<
-           const tensorflow::scann_ops::np_row_major_arr<float>&,
+           std::optional<const tensorflow::scann_ops::np_row_major_arr<float>>,
            std::optional<
                const tensorflow::scann_ops::np_row_major_arr<uint32_t>>,
            std::optional<
                const tensorflow::scann_ops::np_row_major_arr<uint8_t>>,
+           std::optional<const tensorflow::scann_ops::np_row_major_arr<int8_t>>,
+           std::optional<const tensorflow::scann_ops::np_row_major_arr<float>>,
+           std::optional<const tensorflow::scann_ops::np_row_major_arr<float>>,
            const std::string&>())
       .def(pybind11::init<const tensorflow::scann_ops::np_row_major_arr<float>&,
                           const std::string&, int>())

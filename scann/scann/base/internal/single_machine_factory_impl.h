@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ using StatusOrSearcherUntyped =
 namespace internal {
 
 inline int NumQueryDatabaseSearchTypesConfigured(const ScannConfig& config) {
-  return config.has_brute_force() + config.has_tree() + config.has_hash();
+  return config.has_brute_force() + config.has_hash();
 }
 
 template <typename LeafSearcherT>

@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import apache_beam as beam
 from apache_beam.metrics import Metrics
 import numpy as np
 import tensorflow as tf
-from tensorflow_datasets.core import api_utils
 import tensorflow_datasets.public_api as tfds
 import tensorflow_hub as hub
 
@@ -313,8 +312,7 @@ class GenerateBERTEmbeddings(beam.DoFn):
 class ROCStoriesEmbeddingConfig(tfds.core.BuilderConfig):
   """BuilderConfig for ROCStories sentence embeddings."""
 
-  @api_utils.disallow_positional_args
-  def __init__(self, embedding_type, output_emb_size, version, **kwargs):
+  def __init__(self, *, embedding_type, output_emb_size, version, **kwargs):
     """BuilderConfig for ROCStories sentence embeddings.
 
     Args:

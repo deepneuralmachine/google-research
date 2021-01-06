@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ from stacked_capsule_autoencoders.capsules import neural
 from stacked_capsule_autoencoders.capsules import plot
 from stacked_capsule_autoencoders.capsules import tensor_ops
 from stacked_capsule_autoencoders.capsules.eval import bipartite_match
-from stacked_capsule_autoencoders.capsules.models import Model
+from stacked_capsule_autoencoders.capsules.models.model import Model
 
 tfd = tfp.distributions
 

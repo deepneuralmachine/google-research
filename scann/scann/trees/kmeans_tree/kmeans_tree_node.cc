@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,9 +29,6 @@
 
 namespace tensorflow {
 namespace scann_ops {
-
-static const int32_t kMaxIterations = 1000;
-static const double kEpsilon = 1e-3;
 
 KMeansTreeNode::KMeansTreeNode() {}
 

@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 """CNN model with Mel spectrum."""
 from kws_streaming.layers import modes
 from kws_streaming.layers import speech_features
+from kws_streaming.layers import stream
 from kws_streaming.layers.compat import tf
-from kws_streaming.layers.stream import Stream
-from kws_streaming.models.utils import parse
+from kws_streaming.models import utils
 
 
 def model_parameters(parser_nn):
@@ -103,10 +103,10 @@ def model(flags):
 
   net = tf.keras.backend.expand_dims(net)
   for filters, kernel_size, activation, dilation_rate, strides in zip(
-      parse(flags.cnn_filters), parse(flags.cnn_kernel_size),
-      parse(flags.cnn_act), parse(flags.cnn_dilation_rate),
-      parse(flags.cnn_strides)):
-    net = Stream(
+      utils.parse(flags.cnn_filters), utils.parse(flags.cnn_kernel_size),
+      utils.parse(flags.cnn_act), utils.parse(flags.cnn_dilation_rate),
+      utils.parse(flags.cnn_strides)):
+    net = stream.Stream(
         cell=tf.keras.layers.Conv2D(
             filters=filters,
             kernel_size=kernel_size,
@@ -115,10 +115,11 @@ def model(flags):
             strides=strides))(
                 net)
 
-  net = Stream(cell=tf.keras.layers.Flatten())(net)
+  net = stream.Stream(cell=tf.keras.layers.Flatten())(net)
   net = tf.keras.layers.Dropout(rate=flags.dropout1)(net)
 
-  for units, activation in zip(parse(flags.units2), parse(flags.act2)):
+  for units, activation in zip(
+      utils.parse(flags.units2), utils.parse(flags.act2)):
     net = tf.keras.layers.Dense(units=units, activation=activation)(net)
 
   net = tf.keras.layers.Dense(units=flags.label_count)(net)

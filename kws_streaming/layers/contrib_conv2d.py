@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +14,9 @@
 # limitations under the License.
 
 """A layer which applies normalization before the activation function."""
+
+from kws_streaming.layers import modes
 from kws_streaming.layers.compat import tf
-from kws_streaming.layers.modes import Modes
 
 
 class ContribConv2D(tf.keras.layers.Conv2D):
@@ -30,7 +31,7 @@ class ContribConv2D(tf.keras.layers.Conv2D):
                normalizer_params=None,
                activation=None,
                use_bias=True,
-               mode=Modes.TRAINING,
+               mode=modes.Modes.TRAINING,
                **kwargs):
     """Initialization of the layer.
 
@@ -49,7 +50,7 @@ class ContribConv2D(tf.keras.layers.Conv2D):
     self.normalizer_params = None
     self.activation_fn = None
 
-    self.training = (mode == Modes.TRAINING)
+    self.training = (mode == modes.Modes.TRAINING)
 
     if normalizer_fn is not None:
       self.normalizer_params = normalizer_params or {}

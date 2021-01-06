@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,6 +83,9 @@ class ScalarQuantizedBruteForceSearcher final
                        ConstSpan<float> abs_thresholds_for_each_dimension,
                        int32_t default_num_neighbors, float default_epsilon);
 
+  StatusOr<SingleMachineFactoryOptions> ExtractSingleMachineFactoryOptions()
+      override;
+
  protected:
   Status FindNeighborsImpl(const DatapointPtr<float>& query,
                            const SearchParameters& params,
@@ -156,6 +159,8 @@ class TreeScalarQuantizationPreprocessedQueryCreator final
   StatusOr<unique_ptr<SearcherSpecificOptionalParameters>>
   CreateLeafSearcherOptionalParameters(
       const DatapointPtr<float>& query) const override;
+
+  ConstSpan<float> inverse_multipliers() const;
 
  private:
   const vector<float> inverse_multipliers_;

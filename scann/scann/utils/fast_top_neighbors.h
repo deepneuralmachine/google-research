@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,7 @@ class FastTopNeighbors {
     CHECK(!mutator_held_);
     sz_ = 0;
     epsilon_ = epsilon;
-    if (max_results_ == max_results) {
-      CHECK(indices_);
+    if (max_results_ == max_results && indices_) {
       return;
     }
 
@@ -50,7 +49,9 @@ class FastTopNeighbors {
 
     const size_t max_no_realloc_results =
         (epsilon < MaxOrInfinity<DistT>()) ? 128 : 16384;
-    if (max_results <= max_no_realloc_results) {
+    if (max_results == 0) {
+      capacity_ = 32;
+    } else if (max_results <= max_no_realloc_results) {
       capacity_ = max_capacity_ = NextMultipleOf(2 * max_results, 32);
     } else {
       capacity_ = 2 * max_no_realloc_results;

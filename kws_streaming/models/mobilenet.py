@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 from kws_streaming.layers import modes
 from kws_streaming.layers import speech_features
 from kws_streaming.layers.compat import tf
-from kws_streaming.models.utils import parse
+from kws_streaming.models import utils
 
 
 def model_parameters(parser_nn):
@@ -110,18 +110,18 @@ def model(flags):
   # it is convolutional block
   net = tf.keras.layers.Conv2D(
       filters=flags.cnn1_filters,
-      kernel_size=parse(flags.cnn1_kernel_size),
+      kernel_size=utils.parse(flags.cnn1_kernel_size),
       padding='valid',
       use_bias=False,
-      strides=parse(flags.cnn1_strides))(
+      strides=utils.parse(flags.cnn1_strides))(
           net)
   net = tf.keras.layers.BatchNormalization(scale=flags.bn_scale)(net)
   net = tf.keras.layers.ReLU(6.)(net)
   # [batch, time, feature, filters]
 
   for kernel_size, strides, filters in zip(
-      parse(flags.ds_kernel_size), parse(flags.ds_strides),
-      parse(flags.cnn_filters)):
+      utils.parse(flags.ds_kernel_size), utils.parse(flags.ds_strides),
+      utils.parse(flags.cnn_filters)):
     # it is depthwise convolutional block
     net = tf.keras.layers.DepthwiseConv2D(
         kernel_size,

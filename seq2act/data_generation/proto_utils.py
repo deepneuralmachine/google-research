@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,8 +32,6 @@ import tensorflow.compat.v1 as tf
 
 from seq2act.data_generation import string_utils
 from seq2act.data_generation import view_hierarchy
-from tensorflow.contrib import framework as contrib_framework
-nest = contrib_framework.nest
 
 
 def get_feature_dict(screen_info_proto, padding_shape=None, lower_case=False):

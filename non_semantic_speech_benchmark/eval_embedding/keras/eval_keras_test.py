@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ class EvalKerasTest(absltest.TestCase):
 
   def test_full_flow(self):
     flags.FLAGS.label_name = 'test'
+    flags.FLAGS.label_list = ['no', 'yes']
+    flags.FLAGS.bucket_boundaries = [10, 20]
     flags.FLAGS.label_list = ['no', 'yes']
     flags.FLAGS.logdir = absltest.get_default_test_tmpdir()
     flags.FLAGS.eval_dir = absltest.get_default_test_tmpdir()

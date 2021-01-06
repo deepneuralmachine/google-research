@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -226,7 +226,10 @@ def concat_images(img_list, sep_width, vertical=True):
 
 
 def apply_cmap(brightness, cmap):
-  indices = tf.to_int32(tf.round(brightness * 255))
+  indices = tf.cast(brightness * 255.0, tf.int32)
+  # Make sure the indices are in the right range. Comes in handy for NaN values.
+  indices = tf.clip_by_value(indices, 0, 256)
+
   cm = matplotlib.cm.get_cmap(cmap)
   colors = tf.constant(cm.colors, dtype=tf.float32)
   return tf.gather(colors, indices)

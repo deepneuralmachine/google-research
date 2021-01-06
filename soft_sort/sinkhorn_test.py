@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -48,6 +48,16 @@ class SinkhornTest(parameterized.TestCase, tf.test.TestCase):
         self.x, self.y, self.a, self.b, epsilon=1e-3, epsilon_0=1e-1,
         epsilon_decay=0.95, threshold=1e-3)
     self.assertLess(result_decay[-1], result_nodecay[-1])
+
+  def test_sinkhorn_divergence(self):
+    x = tf.convert_to_tensor([[[0, 0], [1, 1]], [[1, 1], [0, 0]]],
+                             dtype=tf.float32)
+    y = tf.convert_to_tensor([[[0, 1], [0, 1]], [[1, 0], [0, 1]]],
+                             dtype=tf.float32)
+    a = tf.convert_to_tensor([[.3, .7], [.7, .3]], dtype=tf.float32)
+    b = tf.convert_to_tensor([[.4, .6], [.6, .4]], dtype=tf.float32)
+    divergences = sinkhorn.sinkhorn_divergence(x, y, a, b, power=2)
+    self.assertAllClose(divergences[0], divergences[1], rtol=1e-03, atol=1e-03)
 
 
 if __name__ == '__main__':

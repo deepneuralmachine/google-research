@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
 # limitations under the License.
 
 """LSTM with Mel spectrum and fully connected layers."""
+from kws_streaming.layers import lstm
 from kws_streaming.layers import modes
 from kws_streaming.layers import speech_features
+from kws_streaming.layers import stream
 from kws_streaming.layers.compat import tf
-from kws_streaming.layers.lstm import LSTM
-from kws_streaming.layers.stream import Stream
-from kws_streaming.models.utils import parse
+from kws_streaming.models import utils
 
 
 def model_parameters(parser_nn):
@@ -104,9 +104,9 @@ def model(flags):
             net)
 
   for units, return_sequences, num_proj in zip(
-      parse(flags.lstm_units), parse(flags.return_sequences),
-      parse(flags.num_proj)):
-    net = LSTM(
+      utils.parse(flags.lstm_units), utils.parse(flags.return_sequences),
+      utils.parse(flags.num_proj)):
+    net = lstm.LSTM(
         units=units,
         return_sequences=return_sequences,
         stateful=flags.stateful,
@@ -114,10 +114,11 @@ def model(flags):
         num_proj=num_proj)(
             net)
 
-  net = Stream(cell=tf.keras.layers.Flatten())(net)
+  net = stream.Stream(cell=tf.keras.layers.Flatten())(net)
   net = tf.keras.layers.Dropout(rate=flags.dropout1)(net)
 
-  for units, activation in zip(parse(flags.units1), parse(flags.act1)):
+  for units, activation in zip(
+      utils.parse(flags.units1), utils.parse(flags.act1)):
     net = tf.keras.layers.Dense(units=units, activation=activation)(net)
 
   net = tf.keras.layers.Dense(units=flags.label_count)(net)

@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -71,6 +71,15 @@ class BaseParserTest(tf.test.TestCase):
                      params.frequency_mask_max_size)
     self.assertEqual(FLAGS.return_softmax,
                      params.return_softmax)
+    self.assertEqual(FLAGS.use_spec_cutout, params.use_spec_cutout)
+    self.assertEqual(FLAGS.spec_cutout_masks_number,
+                     params.spec_cutout_masks_number)
+    self.assertEqual(FLAGS.spec_cutout_time_mask_size,
+                     params.spec_cutout_time_mask_size)
+    self.assertEqual(FLAGS.spec_cutout_frequency_mask_size,
+                     params.spec_cutout_frequency_mask_size)
+    self.assertEqual(FLAGS.pick_deterministically,
+                     params.pick_deterministically)
 
 
 if __name__ == '__main__':

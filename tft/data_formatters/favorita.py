@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -249,7 +249,7 @@ class FavoritaFormatter(data_formatters.base.GenericDataFormatter):
 
     fixed_params = {
         'total_time_steps': 120,
-        'num_encoder_steps': 30,
+        'num_encoder_steps': 90,
         'num_epochs': 100,
         'early_stopping_patience': 5,
         'multiprocessing_workers': 5

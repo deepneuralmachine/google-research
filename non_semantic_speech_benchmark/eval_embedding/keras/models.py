@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,18 +16,21 @@
 # Lint as: python3
 """Small models to be finetuned on embeddings."""
 
-import tensorflow.compat.v1 as tf
+import tensorflow.compat.v2 as tf
 from tensorflow_addons.layers.netvlad import NetVLAD
+from non_semantic_speech_benchmark.eval_embedding import autopool
 
 
 def get_keras_model(num_classes, use_batchnorm=True, l2=1e-5,
-                    num_clusters=None):
+                    num_clusters=None, alpha_init=None):
   """Make a model."""
   model = tf.keras.models.Sequential()
-  if num_clusters > 0:
+  if num_clusters and num_clusters > 0:
     model.add(NetVLAD(num_clusters=num_clusters))
     if use_batchnorm:
       model.add(tf.keras.layers.BatchNormalization())
+  elif alpha_init is not None:
+    model.add(autopool.AutoPool(axis=1, alpha_init=alpha_init, trainable=False))
   else:
     model.add(tf.keras.layers.Lambda(lambda x: tf.reduce_mean(x, axis=1)))
   model.add(tf.keras.layers.Dense(

@@ -1,4 +1,4 @@
-// Copyright 2020 The Google Research Authors.
+// Copyright 2021 The Google Research Authors.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -471,13 +471,19 @@ void DenseDataset<T>::ReserveImpl(size_t n) {
 }
 
 template <typename T>
+void DenseDataset<T>::Resize(size_t n) {
+  CHECK_EQ(this->docids()->capacity(), 0)
+      << "Resize only works for datasets with empty docids.";
+  if (this->size() != n) {
+    data_.resize(n * stride_);
+    this->set_docids_no_checks(make_unique<VariableLengthDocidCollection>(
+        VariableLengthDocidCollection::CreateWithEmptyDocids(n)));
+  }
+}
+
+template <typename T>
 void DenseDataset<T>::clear() {
-  this->set_dimensionality_no_checks(0);
-  this->ClearDocids();
-  this->set_is_binary(false);
-  data_.clear();
-  stride_ = 0;
-  mutator_ = nullptr;
+  *this = DenseDataset<T>();
 }
 
 template <typename T>
@@ -712,10 +718,7 @@ void SparseDataset<T>::Reserve(size_t n_points, size_t n_entries) {
 
 template <typename T>
 void SparseDataset<T>::clear() {
-  repr_.Clear();
-  this->set_dimensionality_no_checks(0);
-  this->ClearDocids();
-  this->set_is_binary(false);
+  *this = SparseDataset<T>();
 }
 template <typename T>
 size_t SparseDataset<T>::MemoryUsageExcludingDocids() const {

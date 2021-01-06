@@ -1,5 +1,5 @@
 # coding=utf-8
-# Copyright 2020 The Google Research Authors.
+# Copyright 2021 The Google Research Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,10 +14,6 @@
 # limitations under the License.
 
 """Tests for kws_streaming.layers.zero_mean_constraint."""
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
 
 import numpy as np
 import tensorflow.compat.v1 as tf
@@ -50,9 +46,8 @@ class NonScalingDropoutTest(tf.test.TestCase):
     layer = non_scaling_dropout.NonScalingDropout(
         rate=(1 - keep_prob),
         noise_shape=noise_shape,
-        seed=self.seed,
-        training=training)
-    actual_output = layer(self.test_inputs)
+        seed=self.seed)
+    actual_output = layer(self.test_inputs, training=training)
 
     # TF implementation
     expected_output = _original_non_scaling_dropout(
@@ -73,9 +68,8 @@ class NonScalingDropoutTest(tf.test.TestCase):
     layer = non_scaling_dropout.NonScalingDropout(
         rate=(1 - keep_prob),
         noise_shape=noise_shape,
-        seed=self.seed,
-        training=training)
-    output = layer(self.test_inputs)
+        seed=self.seed)
+    output = layer(self.test_inputs, training=training)
 
     # When applied during inference, should not do anything
     self.assertAllClose(self.test_inputs, output)
@@ -90,9 +84,8 @@ class NonScalingDropoutTest(tf.test.TestCase):
     layer = non_scaling_dropout.NonScalingDropout(
         rate=(1 - keep_prob),
         noise_shape=noise_shape,
-        seed=self.seed,
-        training=training)
-    output = layer(self.test_inputs)
+        seed=self.seed)
+    output = layer(self.test_inputs, training=training)
 
     # since keep_prob is 1, shouldn't affect the result
     self.assertAllClose(self.test_inputs, output)
@@ -101,8 +94,8 @@ class NonScalingDropoutTest(tf.test.TestCase):
     training = True
     keep_prob = 0.5
     layer = non_scaling_dropout.NonScalingDropout(
-        rate=(1 - keep_prob), seed=self.seed, training=training)
-    layer(self.test_inputs)
+        rate=(1 - keep_prob), seed=self.seed)
+    layer(self.test_inputs, training=training)
 
     # When given no input shape, check that the shape is inferred from the input
     self.assertAllEqual(self.test_inputs.shape,
@@ -118,9 +111,8 @@ class NonScalingDropoutTest(tf.test.TestCase):
     layer = non_scaling_dropout.NonScalingDropout(
         rate=(1 - keep_prob),
         noise_shape=[1, input_shape[1]],
-        seed=self.seed,
-        training=training)
-    output = self.sess.run(layer(inputs))
+        seed=self.seed)
+    output = self.sess.run(layer(inputs, training=training))
 
     self.assertAllInSet(output, [0, 1])
 
